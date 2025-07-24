@@ -20,7 +20,7 @@ import type {
   SignUpDataToStore,
 } from "../../../types/Auth/authTypes";
 import { FormContainer, StyledForm } from "./SignUpStyles";
-import WrappedTypography from "../../Wrappers/WrappedTypography";
+import WrappedTypography from "../../wrappers/WrappedTypography";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 // Cloudinary upload helper

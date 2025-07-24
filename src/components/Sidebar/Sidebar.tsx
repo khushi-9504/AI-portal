@@ -7,7 +7,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import { Logo } from "../../assets";
+import { Logo } from "../../assets/images";
 import {
   sidebarContainer,
   logoBox,
@@ -115,3 +115,73 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
+
+// type SidebarProps = {
+//   collapsed: boolean;
+// };
+
+// const Sidebar = ({ collapsed }: SidebarProps) => {
+//   const theme = useTheme();
+//   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+//   const navigate = useNavigate();
+//   const dispatch = useDispatch();
+
+//   const sidebarWidth = collapsed ? "4rem" : "17%";
+
+//   return (
+//     <Box width={sidebarWidth} minWidth={sidebarWidth} sx={sidebarContainer}>
+//       {/* Top: Logo */}
+//       <Box sx={logoBox(isMobile)}>
+//         <img
+//           src={Logo}
+//           alt="Logo"
+//           width={collapsed ? "40px" : isMobile ? "60px" : "100%"}
+//           style={{
+//             maxWidth: collapsed ? "40px" : isMobile ? "60px" : "150px",
+//             height: "auto",
+//           }}
+//         />
+//       </Box>
+
+//       {/* Menu & Logout */}
+//       <Box
+//         sx={{
+//           flex: 1,
+//           display: "flex",
+//           flexDirection: "column",
+//           justifyContent: "space-between",
+//         }}
+//       >
+//         <MenuList sx={menuList(collapsed)}>
+//           {menuItems.map(({ label, icon, path }) => (
+//             <MenuItem
+//               key={label}
+//               onClick={() => navigate(path)}
+//               sx={menuItem(collapsed)}
+//             >
+//               <Tooltip title={collapsed ? label : ""} placement="right">
+//                 <Button startIcon={icon} sx={menuButton(collapsed)}>
+//                   {!collapsed && label}
+//                 </Button>
+//               </Tooltip>
+//             </MenuItem>
+//           ))}
+//         </MenuList>
+
+//         <Box sx={logoutContainer}>
+//           <Button
+//             variant="contained"
+//             startIcon={!collapsed && <LogoutIcon />}
+//             sx={logoutButton(collapsed)}
+//             onClick={() => {
+//               dispatch(logoutUser());
+//               navigate("/login");
+//             }}
+//           >
+//             {collapsed ? <LogoutIcon /> : "Log out"}
+//           </Button>
+//         </Box>
+//       </Box>
+//     </Box>
+//   );
+// };

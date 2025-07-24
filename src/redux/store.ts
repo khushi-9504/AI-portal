@@ -4,10 +4,12 @@ import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { combineReducers } from "redux";
 import employeeReducer from "./features/employeeSlice";
+import layoutReducer from "./features/layoutSlice";
 
 const rootReducer = combineReducers({
   auth: authReducer,
   employee: employeeReducer,
+  layout: layoutReducer,
 });
 
 const persistConfig = {

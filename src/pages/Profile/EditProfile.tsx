@@ -13,7 +13,11 @@ const EditProfile: React.FC = () => {
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.auth.signUpData);
 
-  const { control, handleSubmit } = useForm<editProfileFormData>({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<editProfileFormData>({
     defaultValues: {
       firstName: user?.firstName || "",
       lastName: user?.lastName || "",
@@ -25,7 +29,6 @@ const EditProfile: React.FC = () => {
       postalCode: user?.postalCode || "",
       manager: user?.manager || "",
       joiningDate: user?.joiningDate || "",
-      profilePic: user?.profilePic || "",
     },
   });
 
@@ -94,12 +97,15 @@ const EditProfile: React.FC = () => {
               key={name}
               name={name}
               control={control}
+              rules={{ required: `${label} is required` }}
               render={({ field }) => (
                 <TextField
                   {...field}
                   label={label}
                   fullWidth
                   type={type || "text"}
+                  error={!!errors[name]}
+                  helperText={errors[name]?.message}
                   sx={{ mb: 2 }}
                   InputLabelProps={
                     type === "date" ? { shrink: true } : undefined
@@ -109,10 +115,23 @@ const EditProfile: React.FC = () => {
             />
           ))}
 
-          {/* Profile Picture Upload */}
+          {/* Profile Picture Upload with Validation */}
           <Controller
             name="profilePic"
             control={control}
+            rules={{
+              validate: (value) => {
+                const hasExisting = !!user?.profilePic;
+                const hasNewUpload =
+                  value instanceof FileList && value.length > 0;
+
+                if (!hasExisting && !hasNewUpload) {
+                  return "Profile picture is required";
+                }
+
+                return true;
+              },
+            }}
             render={({ field }) => (
               <TextField
                 type="file"
@@ -123,6 +142,8 @@ const EditProfile: React.FC = () => {
                 }}
                 fullWidth
                 sx={{ mb: 2 }}
+                error={!!errors.profilePic}
+                helperText={errors.profilePic?.message}
               />
             )}
           />

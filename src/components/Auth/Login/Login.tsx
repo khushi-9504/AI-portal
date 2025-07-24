@@ -12,10 +12,9 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-
 import { StyledContainer, StyledForm } from "./LoginStyles";
 import type { LoginFormData } from "../../../types/Auth/authTypes";
-import WrappedTypography from "../../Wrappers/WrappedTypography";
+import WrappedTypography from "../../wrappers/WrappedTypography";
 import type { RootState } from "../../../redux/store";
 import { loginUser } from "../../../redux/features/authSlice";
 
