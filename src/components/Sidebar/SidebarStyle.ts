@@ -1,66 +1,76 @@
-import type { SxProps, Theme } from "@mui/material";
+// const sidebarStyles = {
+//   sidebar: {
+//     width: "250px",
+//     bgcolor: "white",
+//     px: 2,
+//     py: 3,
+//     display: "flex",
+//     flexDirection: "column",
+//     justifyContent: "space-between",
+//   },
+//   navList: {
+//     flexGrow: 1,
+//     display: "flex",
+//     flexDirection: "column",
+//     gap: 1,
+//     mt: 2,
+//   },
+//   listItem: {
+//     borderRadius: "10px",
+//     "&.Mui-selected": {
+//       bgcolor: "#E3F2FD",
+//       color: "#1E88E5",
+//     },
+//     "&:hover": {
+//       bgcolor: "#f0f0f0",
+//     },
+//   },
+//   logoutWrapper: {
+//     mb: "2.5em",
+//     display: "flex",
+//     justifyContent: "center",
+//   },
+// };
 
-export const sidebarContainer: SxProps<Theme> = {
-  display: "flex",
-  flexDirection: "column",
-  minHeight: "100vh",
-  justifyContent: "flex-start",
-  backgroundColor: "#fff",
-  borderRight: "1px solid #eee",
+// export default sidebarStyles;
+
+const sidebarStyles = {
+  sidebarWrapper: (isCollapsed: boolean) => ({
+    width: isCollapsed ? "80px" : "240px",
+    height: "100vh",
+    backgroundColor: "#f5f7fa",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    position: "sticky",
+    top: 0,
+    left: 0,
+    transition: "width 0.3s ease",
+    borderRight: "1px solid #ddd",
+  }),
+  navList: {
+    paddingTop: "2em",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    gap: "1em",
+  },
+  navItem: {
+    width: "90%",
+    borderRadius: "10px",
+    padding: "0.8em",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "start",
+    "&:hover": {
+      backgroundColor: "#e3e8ef",
+    },
+  },
+  logoutContainer: {
+    marginBottom: "2.5em",
+    display: "flex",
+    justifyContent: "center",
+  },
 };
 
-export const logoBox = (isMobile: boolean): SxProps<Theme> => ({
-  p: 2,
-  display: "flex",
-  justifyContent: isMobile ? "center" : "flex-start",
-});
-
-export const menuList: (
-  isMobile: boolean,
-  isMedium: boolean
-) => SxProps<Theme> = (isMobile, isMedium) => ({
-  display: "flex",
-  flexDirection: "column",
-  gap: 1,
-  px: isMobile ? 0 : isMedium ? 1 : 2,
-});
-
-export const menuItem: (isMobile: boolean) => SxProps<Theme> = (isMobile) => ({
-  display: "flex",
-  justifyContent: isMobile ? "center" : "flex-start",
-  px: isMobile ? 0 : 1,
-});
-
-export const menuButton: (
-  isMobile: boolean,
-  isMedium: boolean
-) => SxProps<Theme> = (isMobile, isMedium) => ({
-  minWidth: "100%",
-  justifyContent: isMobile ? "center" : "flex-start",
-  textTransform: "capitalize",
-  color: "#333",
-  fontSize: isMobile ? "0.75rem" : isMedium ? "0.85rem" : "1rem",
-  padding: isMobile || isMedium ? "6px 8px" : "8px 16px",
-  whiteSpace: "normal",
-  "&:hover": { backgroundColor: "transparent" },
-});
-
-export const logoutContainer: SxProps<Theme> = {
-  mb: "2.5rem",
-  textAlign: "center",
-};
-
-export const logoutButton: (isMobile: boolean) => SxProps<Theme> = (
-  isMobile
-) => ({
-  minWidth: isMobile ? "auto" : "10rem",
-  borderRadius: "15px",
-  px: isMobile ? 1 : 4,
-  py: 1,
-  textTransform: "capitalize",
-  fontSize: isMobile ? "1.2rem" : "1rem",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "flex-start",
-  ml: isMobile ? "1rem" : "2rem",
-});
+export default sidebarStyles;

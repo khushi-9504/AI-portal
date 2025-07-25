@@ -1,4 +1,5 @@
-import Logo from "./images/logo.webp";
-import UserImage from "./images/user-image.jpeg";
+import Logo from "./logo.webp";
+import UserImage from "./user-image.jpeg";
+import Favicon from "./Favicon.png";
 
-export { Logo, UserImage };
+export { Logo, UserImage, Favicon };

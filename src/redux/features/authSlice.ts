@@ -45,7 +45,7 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import type { SignUpDataToStore } from "../../types/Auth/authTypes"; // ✅ updated type
+import type { SignUpDataToStore } from "../../types/auth/authTypes";
 
 interface AuthState {
   signUpData: SignUpDataToStore | null;
