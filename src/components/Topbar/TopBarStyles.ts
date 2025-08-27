@@ -8,5 +8,12 @@ export const TopBarContainer = styled(Box)(({ theme }) => ({
   justifyContent: "space-between",
   padding: theme.spacing(0, 2),
   backgroundColor: theme.palette.background.paper,
-  borderBottom: `1px solid ${theme.palette.divider}`,
+
+  "& .MuiIconButton-root": {
+    marginRight: theme.spacing(1),
+  },
+
+  "& .MuiAvatar-root": {
+    marginLeft: theme.spacing(1),
+  },
 }));
