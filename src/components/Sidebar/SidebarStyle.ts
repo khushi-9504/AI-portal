@@ -1,76 +1,69 @@
-// const sidebarStyles = {
-//   sidebar: {
-//     width: "250px",
-//     bgcolor: "white",
-//     px: 2,
-//     py: 3,
-//     display: "flex",
-//     flexDirection: "column",
-//     justifyContent: "space-between",
-//   },
-//   navList: {
-//     flexGrow: 1,
-//     display: "flex",
-//     flexDirection: "column",
-//     gap: 1,
-//     mt: 2,
-//   },
-//   listItem: {
-//     borderRadius: "10px",
-//     "&.Mui-selected": {
-//       bgcolor: "#E3F2FD",
-//       color: "#1E88E5",
-//     },
-//     "&:hover": {
-//       bgcolor: "#f0f0f0",
-//     },
-//   },
-//   logoutWrapper: {
-//     mb: "2.5em",
-//     display: "flex",
-//     justifyContent: "center",
-//   },
-// };
-
-// export default sidebarStyles;
-
 const sidebarStyles = {
   sidebarWrapper: (isCollapsed: boolean) => ({
     width: isCollapsed ? "80px" : "240px",
-    height: "100vh",
-    backgroundColor: "#f5f7fa",
+    minHeight: "100vh",
+    position: "fixed",
+    top: 0,
+    left: 0,
+    backgroundColor: "#ffffff",
     display: "flex",
     flexDirection: "column",
     justifyContent: "space-between",
-    position: "sticky",
-    top: 0,
-    left: 0,
     transition: "width 0.3s ease",
-    borderRight: "1px solid #ddd",
+    zIndex: 1200,
+    "@media (max-width: 768px)": {
+      width: isCollapsed ? "60px" : "200px",
+    },
   }),
+
   navList: {
-    paddingTop: "2em",
+    pt: "5rem",
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
-    gap: "1em",
+    gap: 1,
+    alignItems: "flex-start",
+    width: "100%",
+    px: 2,
   },
+
   navItem: {
-    width: "90%",
-    borderRadius: "10px",
-    padding: "0.8em",
+    width: "100%",
     display: "flex",
-    alignItems: "center",
-    justifyContent: "start",
-    "&:hover": {
-      backgroundColor: "#e3e8ef",
-    },
+    justifyContent: "flex-start",
   },
+
+  navItemButton: (isCollapsed: boolean) => ({
+    justifyContent: isCollapsed ? "center" : "flex-start",
+    px: isCollapsed ? 1 : 2,
+  }),
+
+  navItemIcon: (isCollapsed: boolean) => ({
+    minWidth: 0,
+    mr: isCollapsed ? 0 : 4,
+    justifyContent: "center",
+  }),
+
   logoutContainer: {
-    marginBottom: "2.5em",
+    mt: "auto",
+    mb: "2em",
     display: "flex",
     justifyContent: "center",
   },
+
+  logoutButton: (isCollapsed: boolean) => ({
+    border: "none",
+    display: "flex",
+    backgroundColor: "#007bff",
+    padding: "0.5em 1.2em",
+    justifyContent: "center",
+    color: "#fff",
+    borderRadius: "20px",
+    cursor: "pointer",
+    transition: "background-color 0.3s ease",
+    "&:hover": {
+      backgroundColor: "#0056b3",
+    },
+  }),
 };
 
 export default sidebarStyles;

@@ -1,12 +1,14 @@
 import React from "react";
-import { Box, TextField, Button, Typography } from "@mui/material";
-import { useForm, Controller } from "react-hook-form";
+import { Box, Button } from "@mui/material";
+import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { updateUserProfile } from "../../redux/features/authSlice";
 import type { RootState } from "../../redux/store";
-import { formBox, formButton, inputFieldBox } from "./EditProfileStyle";
-import type { editProfileFormData } from "../../types/Profile/editProfileTypes";
+import { formBox, twoColumnGrid, buttonsContainer } from "./EditProfileStyle";
+import type { editProfileFormData } from "../../types/profile/editProfileTypes";
+import WrappedTypography from "../../components/wrappers/WrappedTypography";
+import WrappedTextField from "../../components/wrappers/WrappedTextField";
 
 const EditProfile: React.FC = () => {
   const dispatch = useDispatch();
@@ -23,47 +25,20 @@ const EditProfile: React.FC = () => {
       lastName: user?.lastName || "",
       phone: user?.phone || "",
       email: user?.email || "",
-      role: user?.role || "",
+      bio: user?.bio || "",
       country: user?.country || "",
       state: user?.state || "",
       postalCode: user?.postalCode || "",
-      manager: user?.manager || "",
       joiningDate: user?.joiningDate || "",
     },
   });
 
   const onSubmit = async (data: editProfileFormData) => {
     try {
-      let imageUrl = user?.profilePic || "";
-
-      if (data.profilePic instanceof FileList && data.profilePic.length > 0) {
-        const formData = new FormData();
-        formData.append("file", data.profilePic[0]);
-        formData.append("upload_preset", "ai-portal");
-        formData.append("folder", "user_profiles");
-
-        const res = await fetch(
-          `https://api.cloudinary.com/v1_1/dzoi2kcv8/image/upload`,
-          {
-            method: "POST",
-            body: formData,
-          }
-        );
-
-        const cloudinaryData = await res.json();
-        imageUrl = cloudinaryData.secure_url;
-      }
-
-      dispatch(
-        updateUserProfile({
-          ...data,
-          profilePic: imageUrl,
-        })
-      );
-
+      dispatch(updateUserProfile(data));
       navigate("/profile");
     } catch (error) {
-      console.error("Image upload failed:", error);
+      console.error("Profile update failed:", error);
     }
   };
 
@@ -74,84 +49,53 @@ const EditProfile: React.FC = () => {
   }[] = [
     { name: "firstName", label: "First Name" },
     { name: "lastName", label: "Last Name" },
+    { name: "email", label: "Email Address", type: "email" },
     { name: "phone", label: "Phone" },
-    { name: "email", label: "Email" },
-    { name: "role", label: "Role" },
-    { name: "country", label: "Country" },
-    { name: "state", label: "State" },
-    { name: "postalCode", label: "Postal Code" },
-    { name: "manager", label: "Reporting Manager" },
+    { name: "bio", label: "Bio" },
     { name: "joiningDate", label: "Date of Joining", type: "date" },
+    { name: "country", label: "Country" },
+    { name: "state", label: "City/State" },
+    { name: "postalCode", label: "Zip Code" },
   ];
 
   return (
     <Box sx={formBox}>
-      <Typography variant="h5" mb={3} fontWeight="bold">
-        Edit Profile
-      </Typography>
+      <WrappedTypography variant="h6" mb={3} fontWeight="bold">
+        Edit Profile Information
+      </WrappedTypography>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Box sx={inputFieldBox}>
+        <Box sx={twoColumnGrid}>
           {fields.map(({ name, label, type }) => (
-            <Controller
+            <WrappedTextField
               key={name}
               name={name}
               control={control}
-              rules={{ required: `${label} is required` }}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  label={label}
-                  fullWidth
-                  type={type || "text"}
-                  error={!!errors[name]}
-                  helperText={errors[name]?.message}
-                  sx={{ mb: 2 }}
-                  InputLabelProps={
-                    type === "date" ? { shrink: true } : undefined
-                  }
-                />
-              )}
+              label={label}
+              type={type}
+              errors={errors}
+              variant="standard"
+              InputLabelProps={type === "date" ? { shrink: true } : undefined}
             />
           ))}
-
-          {/* Profile Picture Upload with Validation */}
-          <Controller
-            name="profilePic"
-            control={control}
-            rules={{
-              validate: (value) => {
-                const hasExisting = !!user?.profilePic;
-                const hasNewUpload =
-                  value instanceof FileList && value.length > 0;
-
-                if (!hasExisting && !hasNewUpload) {
-                  return "Profile picture is required";
-                }
-
-                return true;
-              },
-            }}
-            render={({ field }) => (
-              <TextField
-                type="file"
-                inputProps={{ accept: "image/*" }}
-                onChange={(e) => {
-                  const fileInput = e.target as HTMLInputElement;
-                  field.onChange(fileInput.files);
-                }}
-                fullWidth
-                sx={{ mb: 2 }}
-                error={!!errors.profilePic}
-                helperText={errors.profilePic?.message}
-              />
-            )}
-          />
         </Box>
 
-        <Button variant="contained" type="submit" sx={formButton}>
-          Save Changes
-        </Button>
+        <Box sx={buttonsContainer}>
+          <Button
+            variant="outlined"
+            onClick={() => navigate("/profile")}
+            sx={{ borderRadius: "20px", textTransform: "capitalize", mr: 2 }}
+          >
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            type="submit"
+            sx={{ borderRadius: "20px", textTransform: "capitalize" }}
+          >
+            Confirm
+          </Button>
+        </Box>
       </form>
     </Box>
   );

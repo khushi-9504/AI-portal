@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {
-  TextField,
   Button,
+  TextField,
   Radio,
   RadioGroup,
   FormControlLabel,
@@ -18,9 +18,10 @@ import { addEmployee } from "../../../redux/features/employeeSlice";
 import type {
   SignUpFormData,
   SignUpDataToStore,
-} from "../../../types/Auth/authTypes";
+} from "../../../types/auth/authTypes";
 import { FormContainer, StyledForm } from "./SignUpStyles";
 import WrappedTypography from "../../wrappers/WrappedTypography";
+import IWrappedTextField from "../../wrappers/WrappedTextField";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 
 // Cloudinary upload helper
@@ -95,114 +96,60 @@ const SignUp: React.FC = () => {
 
       <StyledForm onSubmit={handleSubmit(onSubmit)}>
         {/* First Name */}
-        <Controller
+        <IWrappedTextField
           name="firstName"
           control={control}
-          rules={{ required: "First name is required" }}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="First Name"
-              fullWidth
-              error={!!errors.firstName}
-              helperText={errors.firstName?.message}
-            />
-          )}
+          label="First Name"
+          errors={errors}
+          variant="outlined"
         />
 
         {/* Last Name */}
-        <Controller
+        <IWrappedTextField
           name="lastName"
           control={control}
-          rules={{ required: "Last name is required" }}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Last Name"
-              fullWidth
-              error={!!errors.lastName}
-              helperText={errors.lastName?.message}
-            />
-          )}
+          label="Last Name"
+          errors={errors}
+          variant="outlined"
         />
 
         {/* Email */}
-        <Controller
+        <IWrappedTextField
           name="email"
           control={control}
-          rules={{
-            required: "Email is required",
-            pattern: { value: /^\S+@\S+$/, message: "Invalid email format" },
-          }}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Email"
-              type="email"
-              fullWidth
-              error={!!errors.email}
-              helperText={errors.email?.message}
-            />
-          )}
+          label="Email"
+          type="email"
+          errors={errors}
+          variant="outlined"
         />
 
         {/* Phone */}
-        <Controller
+        <IWrappedTextField
           name="phone"
           control={control}
-          rules={{ required: "Phone number is required" }}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Phone"
-              fullWidth
-              error={!!errors.phone}
-              helperText={errors.phone?.message}
-            />
-          )}
+          label="Phone"
+          errors={errors}
+          variant="outlined"
         />
 
         {/* Password */}
-        <Controller
+        <IWrappedTextField
           name="password"
           control={control}
-          rules={{
-            required: "Password is required",
-            minLength: {
-              value: 6,
-              message: "Password must be at least 6 characters",
-            },
-          }}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Password"
-              type="password"
-              fullWidth
-              error={!!errors.password}
-              helperText={errors.password?.message}
-            />
-          )}
+          label="Password"
+          type="password"
+          errors={errors}
+          variant="outlined"
         />
 
         {/* Confirm Password */}
-        <Controller
+        <IWrappedTextField
           name="confirmPassword"
           control={control}
-          rules={{
-            required: "Please confirm your password",
-            validate: (value) => value === password || "Passwords do not match",
-          }}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Confirm Password"
-              type="password"
-              fullWidth
-              error={!!errors.confirmPassword}
-              helperText={errors.confirmPassword?.message}
-            />
-          )}
+          label="Confirm Password"
+          type="password"
+          errors={errors}
+          variant="outlined"
         />
 
         {/* Gender */}
@@ -223,35 +170,21 @@ const SignUp: React.FC = () => {
         />
 
         {/* Reporting Manager */}
-        <Controller
+        <IWrappedTextField
           name="manager"
           control={control}
-          rules={{ required: "Reporting Manager is required" }}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Reporting Manager"
-              fullWidth
-              error={!!errors.manager}
-              helperText={errors.manager?.message}
-            />
-          )}
+          label="Reporting Manager"
+          errors={errors}
+          variant="outlined"
         />
 
         {/* Role */}
-        <Controller
+        <IWrappedTextField
           name="role"
           control={control}
-          rules={{ required: "Role is required" }}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Role"
-              fullWidth
-              error={!!errors.role}
-              helperText={errors.role?.message}
-            />
-          )}
+          label="Role"
+          errors={errors}
+          variant="outlined"
         />
 
         {/* Joining Date */}
@@ -268,49 +201,36 @@ const SignUp: React.FC = () => {
               InputLabelProps={{ shrink: true }}
               error={!!errors.joiningDate}
               helperText={errors.joiningDate?.message}
+              sx={{ mb: 2 }}
             />
           )}
         />
 
         {/* State */}
-        <Controller
+        <IWrappedTextField
           name="state"
           control={control}
-          rules={{ required: "State is required" }}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="State"
-              fullWidth
-              error={!!errors.state}
-              helperText={errors.state?.message}
-            />
-          )}
+          label="State"
+          errors={errors}
+          variant="outlined"
         />
 
         {/* Country */}
-        <Controller
+        <IWrappedTextField
           name="country"
           control={control}
-          rules={{ required: "Country is required" }}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Country"
-              fullWidth
-              error={!!errors.country}
-              helperText={errors.country?.message}
-            />
-          )}
+          label="Country"
+          errors={errors}
+          variant="outlined"
         />
 
         {/* Postal Code */}
-        <Controller
+        <IWrappedTextField
           name="postalCode"
           control={control}
-          render={({ field }) => (
-            <TextField {...field} label="Postal Code" fullWidth />
-          )}
+          label="Postal Code"
+          errors={errors}
+          variant="outlined"
         />
 
         {/* Profile Picture */}
@@ -332,6 +252,7 @@ const SignUp: React.FC = () => {
               helperText={
                 errors.profilePic ? "Profile picture is required" : ""
               }
+              sx={{ mb: 2 }}
             />
           )}
         />

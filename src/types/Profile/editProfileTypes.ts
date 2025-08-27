@@ -10,4 +10,5 @@ export interface editProfileFormData {
   manager: string;
   joiningDate: string;
   profilePic?: FileList | string;
+  bio?: string;
 }

@@ -1,19 +1,14 @@
 import React from "react";
-import {
-  Box,
-  TextField,
-  Button,
-  Typography,
-  Snackbar,
-  Alert,
-} from "@mui/material";
-import { useForm, Controller } from "react-hook-form";
+import { Alert, Box, Button, Snackbar } from "@mui/material";
+import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUserProfile } from "../../../redux/features/authSlice";
-import type { RootState } from "../../../redux/store";
-import { formContainer, formField, formButton } from "./ForgotPasswordStyle";
-import type { ForgotPasswordForm } from "../../../types/Auth/authTypes";
+import { updateUserProfile } from "../../redux/features/authSlice";
+import type { RootState } from "../../redux/store";
+import { formContainer, formButton } from "./ForgotPasswordStyle";
+import type { ForgotPasswordForm } from "../../types/auth/authTypes";
 import { useNavigate } from "react-router-dom";
+import WrappedTypography from "../../components/wrappers/WrappedTypography";
+import IWrappedTextField from "../../components/wrappers/WrappedTextField";
 
 const ForgotPassword: React.FC = () => {
   const dispatch = useDispatch();
@@ -49,70 +44,39 @@ const ForgotPassword: React.FC = () => {
 
   return (
     <Box sx={formContainer}>
-      <Typography variant="h5" mb={2} fontWeight="bold">
+      <WrappedTypography variant="h5" mb={2} fontWeight="bold">
         Forgot Password
-      </Typography>
+      </WrappedTypography>
 
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* Email */}
-        <Controller
+        <IWrappedTextField
           name="email"
           control={control}
-          rules={{ required: "Email is required" }}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Email"
-              type="email"
-              fullWidth
-              sx={formField}
-              error={!!errors.email}
-              helperText={errors.email?.message}
-            />
-          )}
+          label="Email"
+          type="email"
+          errors={errors}
+          variant="outlined"
         />
 
         {/* New Password */}
-        <Controller
+        <IWrappedTextField
           name="newPassword"
           control={control}
-          rules={{
-            required: "New password is required",
-            minLength: { value: 6, message: "Min 6 characters" },
-          }}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="New Password"
-              type="password"
-              fullWidth
-              sx={formField}
-              error={!!errors.newPassword}
-              helperText={errors.newPassword?.message}
-            />
-          )}
+          label="New Password"
+          type="password"
+          errors={errors}
+          variant="outlined"
         />
 
         {/* Confirm Password */}
-        <Controller
+        <IWrappedTextField
           name="confirmPassword"
           control={control}
-          rules={{
-            required: "Confirm your password",
-            validate: (value) =>
-              value === newPassword || "Passwords do not match",
-          }}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Confirm Password"
-              type="password"
-              fullWidth
-              sx={formField}
-              error={!!errors.confirmPassword}
-              helperText={errors.confirmPassword?.message}
-            />
-          )}
+          label="Confirm Password"
+          type="password"
+          errors={errors}
+          variant="outlined"
         />
 
         <Button type="submit" variant="contained" sx={formButton} fullWidth>

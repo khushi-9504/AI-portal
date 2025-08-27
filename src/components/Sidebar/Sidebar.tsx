@@ -1,181 +1,72 @@
-// import {
-//   Box,
-//   Button,
-//   MenuItem,
-//   MenuList,
-//   Tooltip,
-//   useMediaQuery,
-//   useTheme,
-// } from "@mui/material";
-// import { Logo } from "../../assets/images";
-// import {
-//   sidebarContainer,
-//   logoBox,
-//   menuList,
-//   menuItem,
-//   menuButton,
-//   logoutContainer,
-//   logoutButton,
-// } from "./SidebarStyle";
-// import HomeIcon from "@mui/icons-material/Home";
-// import PersonRoundedIcon from "@mui/icons-material/PersonRounded";
-// import FlightTakeoffRoundedIcon from "@mui/icons-material/FlightTakeoffRounded";
-// import CalendarMonthRoundedIcon from "@mui/icons-material/CalendarMonthRounded";
-// import GroupsIcon from "@mui/icons-material/Groups";
-// import StickyNote2Icon from "@mui/icons-material/StickyNote2";
-// import LightbulbIcon from "@mui/icons-material/Lightbulb";
-// import LogoutIcon from "@mui/icons-material/Logout";
-// import { useNavigate, useLocation } from "react-router-dom";
-// import { logoutUser } from "../../redux/features/authSlice";
-// import { useDispatch, useSelector } from "react-redux";
-// import type { RootState } from "../../redux/store";
-
-// const Sidebar = () => {
-//   const theme = useTheme();
-//   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-//   const isMedium = useMediaQuery("(max-width:1020px)");
-//   const dispatch = useDispatch();
-//   const navigate = useNavigate();
-//   const location = useLocation();
-
-//   const isCollapsed = useSelector(
-//     (state: RootState) => state.layout.isSidebarCollapsed
-//   );
-
-//   const menuItems = [
-//     { label: "Dashboard", icon: <HomeIcon />, path: "/" },
-//     { label: "Profile", icon: <PersonRoundedIcon />, path: "/profile" },
-//     { label: "Leaves", icon: <FlightTakeoffRoundedIcon />, path: "/leaves" },
-//     {
-//       label: "Holidays",
-//       icon: <CalendarMonthRoundedIcon />,
-//       path: "/holidays",
-//     },
-//     { label: "Employees", icon: <GroupsIcon />, path: "/employees" },
-//     { label: "Policies", icon: <StickyNote2Icon />, path: "/policies" },
-//     { label: "AI Ideas", icon: <LightbulbIcon />, path: "/ai-ideas" },
-//   ];
-
-//   return (
-//     <Box
-//       width={
-//         isCollapsed ? "4rem" : isMobile ? "4rem" : isMedium ? "10rem" : "17%"
-//       }
-//       minWidth={
-//         isCollapsed ? "4rem" : isMobile ? "4rem" : isMedium ? "10rem" : "17%"
-//       }
-//       sx={sidebarContainer}
-//     >
-//       {/* Top: Logo */}
-//       <Box sx={logoBox(isCollapsed)}>
-//         <img
-//           src={Logo}
-//           alt="Logo"
-//           width={isCollapsed ? "40px" : isMedium ? "60px" : "100%"}
-//           style={{
-//             maxWidth: isCollapsed ? "40px" : isMedium ? "60px" : "150px",
-//             height: "auto",
-//           }}
-//         />
-//       </Box>
-
-//       {/* Middle: Menu and Logout */}
-//       <Box
-//         sx={{
-//           flex: 1,
-//           display: "flex",
-//           flexDirection: "column",
-//           justifyContent: "space-between",
-//           position: "relative",
-//         }}
-//       >
-//         {/* Menu Items */}
-//         <Box
-//           sx={{
-//             display: "flex",
-//             flexDirection: "column",
-//             alignItems: "center",
-//             mt: 2,
-//           }}
-//         >
-//           <MenuList sx={menuList(isCollapsed)}>
-//             {menuItems.map(({ label, icon, path }) => (
-//               <MenuItem
-//                 key={label}
-//                 onClick={() => navigate(path)}
-//                 sx={{
-//                   ...menuItem(isCollapsed),
-//                   color: location.pathname === path ? "blue" : "inherit",
-//                 }}
-//               >
-//                 <Tooltip title={isCollapsed ? label : ""} placement="right">
-//                   <Button startIcon={icon} sx={menuButton(isCollapsed)}>
-//                     {!isCollapsed && label}
-//                   </Button>
-//                 </Tooltip>
-//               </MenuItem>
-//             ))}
-//           </MenuList>
-//         </Box>
-
-//         {/* Logout */}
-//         <Box sx={logoutContainer}>
-//           <Button
-//             variant="contained"
-//             startIcon={!isCollapsed && <LogoutIcon />}
-//             sx={logoutButton(isCollapsed)}
-//             onClick={() => {
-//               dispatch(logoutUser());
-//               navigate("/login");
-//             }}
-//           >
-//             {isCollapsed ? <LogoutIcon /> : "Log out"}
-//           </Button>
-//         </Box>
-//       </Box>
-//     </Box>
-//   );
-// };
-
-// export default Sidebar;
-
 import {
   Box,
   List,
   ListItem,
+  ListItemButton,
   ListItemIcon,
   ListItemText,
   useMediaQuery,
 } from "@mui/material";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import type { RootState } from "../../redux/store";
+import sidebarStyles from "./SidebarStyle";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import GroupIcon from "@mui/icons-material/Group";
-import LogoutIcon from "@mui/icons-material/Logout";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 import { toggleSidebar } from "../../redux/features/layoutSlice";
-import type { RootState } from "../../redux/store";
-import { NavLink, useNavigate } from "react-router-dom";
-import sidebarStyles from "./SidebarStyle";
+import logo from "../../assets/images/logo.webp";
+
+const navItems = [
+  { text: "Profile", icon: <DashboardIcon />, path: "/profile" },
+  { text: "Employees", icon: <GroupIcon />, path: "/employees" },
+];
 
 const Sidebar = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const isCollapsed = useSelector(
     (state: RootState) => state.layout.isSidebarCollapsed
   );
-  const isMobile = useMediaQuery("(max-width: 768px)");
+  const navigate = useNavigate();
+  const isMobile = useMediaQuery("(max-width:768px)");
 
-  const handleLogout = () => {
-    console.log("Logout clicked");
-    navigate("/login");
-  };
-
-  const navItems = [
-    { text: "Profile", icon: <DashboardIcon />, path: "/profile" },
-    { text: "Employees", icon: <GroupIcon />, path: "/employees" },
-  ];
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 768 && !isCollapsed) {
+        dispatch(toggleSidebar());
+      } else if (window.innerWidth >= 768 && isCollapsed) {
+        dispatch(toggleSidebar());
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [dispatch, isCollapsed]);
 
   return (
     <Box sx={sidebarStyles.sidebarWrapper(isCollapsed)}>
+      <Box
+        sx={{
+          display: isMobile ? "none" : "flex",
+          justifyContent: isCollapsed ? "center" : "flex-start",
+          alignItems: "center",
+          height: 64,
+          px: 3,
+        }}
+      >
+        <img
+          src={logo}
+          alt="Logo"
+          style={{
+            height: 40,
+            width: isCollapsed ? 40 : "auto",
+            transition: "width 0.3s ease",
+          }}
+        />
+      </Box>
+
       <List sx={sidebarStyles.navList}>
         {navItems.map((item) => (
           <NavLink
@@ -185,34 +76,39 @@ const Sidebar = () => {
               textDecoration: "none",
               color: isActive ? "#1976d2" : "#333",
               width: "100%",
+              display: "flex",
+              justifyContent: "center",
             })}
           >
-            <ListItem button sx={sidebarStyles.navItem}>
-              <ListItemIcon sx={{ minWidth: "40px", color: "inherit" }}>
-                {item.icon}
-              </ListItemIcon>
-              {!isCollapsed && (
-                <ListItemText
-                  primary={item.text}
-                  primaryTypographyProps={{ fontSize: 16 }}
-                />
-              )}
-            </ListItem>
+            {({ isActive }) => (
+              <ListItem disablePadding sx={sidebarStyles.navItem}>
+                <ListItemButton sx={sidebarStyles.navItemButton(isCollapsed)}>
+                  <ListItemIcon
+                    sx={{
+                      ...sidebarStyles.navItemIcon(isCollapsed),
+                      color: isActive ? "#1976d2" : "inherit",
+                    }}
+                  >
+                    {item.icon}
+                  </ListItemIcon>
+                  {!isCollapsed && (
+                    <ListItemText primary={item.text} sx={{ opacity: 1 }} />
+                  )}
+                </ListItemButton>
+              </ListItem>
+            )}
           </NavLink>
         ))}
       </List>
 
       <Box sx={sidebarStyles.logoutContainer}>
-        <ListItem button onClick={handleLogout} sx={sidebarStyles.navItem}>
-          <ListItemIcon sx={{ minWidth: "40px", color: "inherit" }}>
-            <LogoutIcon />
-          </ListItemIcon>
-          {!isCollapsed && (
-            <ListItemText
-              primary="Logout"
-              primaryTypographyProps={{ fontSize: 16 }}
-            />
-          )}
+        <ListItem disablePadding>
+          <ListItemButton
+            onClick={() => navigate("/login")}
+            sx={sidebarStyles.logoutButton(isCollapsed)}
+          >
+            {!isCollapsed && <ListItemText primary="Log Out" />}
+          </ListItemButton>
         </ListItem>
       </Box>
     </Box>

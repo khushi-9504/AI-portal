@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   Box,
-  TextField,
   Button,
   Link,
   useTheme,
@@ -9,12 +8,13 @@ import {
   Snackbar,
   Alert,
 } from "@mui/material";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { StyledContainer, StyledForm } from "./LoginStyles";
-import type { LoginFormData } from "../../../types/Auth/authTypes";
+import type { LoginFormData } from "../../../types/auth/authTypes";
 import WrappedTypography from "../../wrappers/WrappedTypography";
+import IWrappedTextField from "../../wrappers/WrappedTextField";
 import type { RootState } from "../../../redux/store";
 import { loginUser } from "../../../redux/features/authSlice";
 
@@ -74,36 +74,22 @@ const Login: React.FC = () => {
       </WrappedTypography>
 
       <StyledForm onSubmit={handleSubmit(onSubmit)}>
-        <Controller
+        <IWrappedTextField
           name="email"
           control={control}
-          rules={{ required: "Email is required" }}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Email"
-              type="email"
-              fullWidth
-              error={!!errors.email}
-              helperText={errors.email?.message}
-            />
-          )}
+          label="Email"
+          type="email"
+          errors={errors}
+          variant="outlined"
         />
 
-        <Controller
+        <IWrappedTextField
           name="password"
           control={control}
-          rules={{ required: "Password is required" }}
-          render={({ field }) => (
-            <TextField
-              {...field}
-              label="Password"
-              type="password"
-              fullWidth
-              error={!!errors.password}
-              helperText={errors.password?.message}
-            />
-          )}
+          label="Password"
+          type="password"
+          errors={errors}
+          variant="outlined"
         />
 
         <Button type="submit" variant="contained" fullWidth>
